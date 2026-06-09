@@ -16,13 +16,13 @@ if not exist "%TARGET_DIR%" (
 cd /d "%TARGET_DIR%"
 
 echo [2/4] Downloading latest Engine Core from Cloud...
-powershell -Command "Invoke-WebRequest -Uri 'https://github.com/jDroid-X/jBulkEmail/archive/refs/heads/main.zip' -OutFile 'engine.zip'"
+curl.exe -L "https://github.com/jDroid-X/jBulkEmail/archive/refs/heads/main.zip" -o "engine.zip"
 
 echo [3/4] Extracting Engine Files...
 powershell -Command "Expand-Archive -Path 'engine.zip' -DestinationPath '.' -Force"
 del engine.zip
 
-cd "jBulkEmail-main\jBulkEmailWebService"
+cd "jBulkEmail-main\jBulkEmail\jBulkEmailWebService"
 
 echo [4/4] Verifying Python Dependencies...
 pip install -r backend/requirements.txt --quiet
