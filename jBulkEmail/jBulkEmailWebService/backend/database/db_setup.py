@@ -3,7 +3,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from .models import Base
 
-DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///C:/Users/dell/jAnitGravity/jBulkEmailSender/jBulkEmailWebService/backend/database/jbes.db")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE_URL = os.environ.get("DATABASE_URL", f"sqlite:///{os.path.join(BASE_DIR, 'jbes.db')}")
 
 engine = create_engine(
     DATABASE_URL, 
