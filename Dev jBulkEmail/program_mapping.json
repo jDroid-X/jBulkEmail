@@ -1,0 +1,27 @@
+{
+  "project_name": "jBES Discovery",
+  "version": "6.2.0-MSI-READY",
+  "architecture": "Monolithic-Compliance",
+  "master_program": "bulk_email_sender.py",
+  "components": {
+    "Core": "bulk_email_sender.py",
+    "RichUI": "core/RichContentManager.py",
+    "Assets": "assets/",
+    "Config": "config/",
+    "Logs": "logs/"
+  },
+  "programs": [
+    {
+      "name": "jBulkEmailSender-Master",
+      "purpose": "MSI-Compliant Transmission Console (v6.2-READY)",
+      "type": "Main",
+      "path": "bulk_email_sender.py",
+      "status": "active"
+    }
+  ],
+  "legacy_mvc": {
+    "status": "deprecated",
+    "root": "app/",
+    "reason": "Reverted to stable monolith per User Command (2026-03-21)"
+  }
+}

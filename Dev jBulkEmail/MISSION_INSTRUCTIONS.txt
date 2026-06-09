@@ -1,0 +1,67 @@
+=====================================================================
+🚀 jBulkEmailSender: MISSION CONTROL HANDBOOK (v6.1)
+=====================================================================
+
+This application is an enterprise-grade, portable solution designed 
+for high-performance email campaigns. It is designed to be fully 
+portable and run from ANY folder or drive.
+
+---------------------------------------------------------------------
+🛠️ OPTION A: HOW TO CREATE A STANDALONE PACKAGE (Recommended)
+---------------------------------------------------------------------
+Use this method to create a version that works on ANY laptop, even 
+if it does NOT have Python installed.
+
+1. EXECUTE THE BUILD: Double-click "BuildExecutable.bat".
+2. WAIT: A terminal will open and bundle everything automatically.
+3. LOCATE OUTPUT: Open the folder named "PACKAGE_READY_TO_ZIP".
+4. DEPLOY: 
+   - Inside that folder, you will find "jBulkEmailSender".
+   - ZIP that "jBulkEmailSender" folder.
+   - Send this zip file to any other laptop.
+5. RUNNING: The person receiving it unzips and runs 
+   "Deploy_Mission_Control.vbs". A setup wizard will confirm success.
+
+---------------------------------------------------------------------
+✨ ELITE MISSION FEATURES
+---------------------------------------------------------------------
+
+1. MISSION AESTHETICS (3D HUD & Themes):
+   Large 3D controls and a real-time HUD showing telemetry. 
+   Switch themes like Pharaonic Gold or Neon Void in the editor.
+
+2. MISSION RECOVERY (Resume):
+   If your sending is interrupted (Internet loss/Power cut), the app 
+   will detect the checkpoint and ask to RESUME from where you stopped.
+
+3. SINGLE-INSTANCE LOCK:
+   The system prevents account collisions. Only one mission console can 
+   control an email identity at a time.
+
+4. INDIVIDUAL LOGS:
+   Every sender account maintains its own dedicated history file in 
+   the "logs" folder. 
+
+5. RICH TEXT ENGINE:
+   You can paste images, use colors, and bold text. The app 
+   automatically applies professional watermarking to your emails.
+
+---------------------------------------------------------------------
+🔑 CRITICAL SETUP (GMAIL)
+---------------------------------------------------------------------
+1. APP PASSWORD: You MUST use a 16-character "App Password" from 
+   your Google Account. Your regular password WILL NOT WORK.
+2. DELAY: Keep the delay at 1.0s or higher to ensure your emails 
+   stay out of the Spam folder.
+
+---------------------------------------------------------------------
+🛰️ SYSTEM STATUS
+---------------------------------------------------------------------
+- PORTABILITY: ACTIVE
+- PACKAGE PATH: \PACKAGE_READY_TO_ZIP\
+- ARCHITECTURE: STABLE MONOLITH
+- LOGGING: INDIVIDUALIZED
+
+Mission Command: Antigravity AI
+Code Status: READY FOR DEPLOYMENT
+---------------------------------------------------------------------
