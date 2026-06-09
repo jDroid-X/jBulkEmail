@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next-Gen Email Designer</title>
+    <!-- Tailwind CSS for Modern UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Eel Bridge -->
+    <script type="text/javascript" src="/eel.js"></script>
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #001219 0%, #005f73 100%);
+            height: 100vh;
+            overflow: hidden;
+            color: #E9D8A6;
+        }
+
+        .glass-panel {
+            background: rgba(0, 95, 115, 0.6);
+            backdrop-filter: blur(25px);
+            border: 2px solid rgba(148, 210, 189, 0.8);
+            border-radius: 30px;
+            box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.6),
+                0 0 15px rgba(148, 210, 189, 0.2);
+            transform: perspective(1000px) rotateX(1deg);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-panel:hover {
+            transform: perspective(1000px) rotateX(0deg) scale(1.01);
+            box-shadow: 25px 25px 70px rgba(0, 0, 0, 0.5);
+            border-color: rgba(148, 210, 189, 0.6);
+        }
+
+        .tile-3d {
+            background: #94D2BD;
+            color: #001219;
+            border-radius: 20px;
+            box-shadow: 5px 5px 0px #0A9396;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .tile-3d:active {
+            box-shadow: 2px 2px 0px #0A9396;
+            transform: translate(3px, 3px);
+        }
+
+        .chat-container {
+            background: rgba(0, 18, 25, 0.3);
+            border-radius: 25px;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .bubble {
+            max-width: 80%;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bubble-left {
+            background-color: #ffffff;
+            border-radius: 0 15px 15px 15px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .bubble-right {
+            background-color: #dcf8c6;
+            border-radius: 15px 0 15px 15px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .code-editor {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            line-height: 1.5;
+        }
+
+        /* Drag & Drop Overlay */
+        #drop-zone {
+            display: none;
+            background: rgba(52, 152, 219, 0.2);
+            border: 3px dashed #3498db;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 50;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col">
+
+    <!-- Header -->
+    <header class="glass-panel px-6 py-4 flex justify-between items-center z-10">
+        <div class="flex items-center space-x-3">
+            <div class="bg-[#5BC0BE] p-2 rounded-lg text-[#0B132B]">
+                <i class="fas fa-satellite-dish fa-lg"></i>
+            </div>
+            <h1 class="text-xl font-bold text-[#FFFFFF] tracking-tighter">jBulk <span class="text-[#5BC0BE]">Design
+                    Commander</span></h1>
+        </div>
+        <div class="flex space-x-3">
+            <button onclick="saveAndApply()"
+                class="bg-[#F9A620] hover:bg-[#FFC971] text-[#0B132B] px-6 py-2 rounded-full font-bold shadow-[0_0_15px_rgba(249,166,32,0.4)] transition-all flex items-center space-x-2">
+                <i class="fas fa-broadcast-tower"></i>
+                <span>Deploy to Subspace</span>
+            </button>
+            <button onclick="window.close()" class="text-gray-400 hover:text-red-500 transition-colors">
+                <i class="fas fa-times-circle fa-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 flex overflow-hidden p-4 space-x-4">
+
+        <!-- Sidebar Toolset -->
+        <aside class="w-72 glass-panel rounded-2xl p-5 flex flex-col space-y-6">
+            <div>
+                <h3 class="text-sm font-bold text-[#5BC0BE] uppercase tracking-widest mb-4">Tactical Comms</h3>
+                <div class="grid grid-cols-2 gap-3 text-center">
+                    <button onclick="addBubble('left')"
+                        class="p-3 bg-[#1C2541] border border-[#94D2BD]/30 rounded-xl hover:bg-[#94D2BD]/20 transition shadow-sm group">
+                        <i class="fas fa-comment-medical text-[#94D2BD]"></i>
+                        <p class="text-[10px] mt-1 font-bold text-[#E9D8A6]">INCOMING</p>
+                    </button>
+                    <button onclick="addBubble('right')"
+                        class="p-3 bg-[#94D2BD]/10 border border-[#94D2BD]/50 rounded-xl hover:bg-[#94D2BD]/30 transition shadow-sm group">
+                        <i class="fas fa-comment-slash text-[#EE9B00]"></i>
+                        <p class="text-[10px] mt-1 font-bold text-[#E9D8A6]">OUTGOING</p>
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-sm font-bold text-[#94D2BD] uppercase tracking-widest mb-4">Command Assets</h3>
+                <div class="space-y-3">
+                    <button onclick="addCTA()"
+                        class="w-full flex items-center p-3 bg-[#EE9B00]/10 text-[#EE9B00] rounded-xl border border-[#EE9B00]/30 hover:bg-[#EE9B00]/20 transition font-bold text-xs">
+                        <i class="fas fa-crosshairs mr-3 text-[#EE9B00]"></i> CTA OBJECTIVE
+                    </button>
+                    <button onclick="addSocial()"
+                        class="w-full flex items-center p-3 bg-[#94D2BD]/10 text-[#94D2BD] rounded-xl border border-[#94D2BD]/30 hover:bg-[#94D2BD]/20 transition font-bold text-xs">
+                        <i class="fas fa-network-wired mr-3 text-[#0A9396]"></i> SOCIAL BRIDGE
+                    </button>
+                    <button onclick="addDivider()"
+                        class="w-full flex items-center p-3 bg-[#E9D8A6]/5 text-[#E9D8A6] rounded-xl border border-[#E9D8A6]/10 hover:bg-[#E9D8A6]/10 transition font-bold text-xs">
+                        <i class="fas fa-stream mr-3 text-[#BB3E03]"></i> PHASE DIVIDER
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex-1">
+                <h3 class="text-sm font-bold text-[#5BC0BE] uppercase tracking-widest mb-4">Subspace Signal</h3>
+                <div class="bg-[#0B132B]/50 rounded-xl p-3 border border-[#5BC0BE]/20">
+                    <input type="text" id="link-input" placeholder="Paste Transponder URL..."
+                        class="w-full bg-[#1C2541] text-[#5BC0BE] text-xs px-3 py-2 rounded-lg border border-[#5BC0BE]/20 focus:ring-1 focus:ring-[#F9A620] mb-2 outline-none">
+                    <button onclick="generatePreview()"
+                        class="w-full bg-[#5BC0BE] hover:bg-[#6FFFE9] text-[#0B132B] text-xs font-bold py-2 rounded-lg transition">GENERATE
+                        HUD CARD</button>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-gray-100">
+                <p class="text-[10px] text-gray-400 text-center italic">Tip: Drag images directly onto the chat area to
+                    insert!</p>
+            </div>
+        </aside>
+
+        <!-- Main Editor/Preview -->
+        <div class="flex-1 flex flex-col glass-panel rounded-2xl overflow-hidden relative"
+            ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+
+            <div id="drop-zone" class="flex flex-col items-center justify-center">
+                <i class="fas fa-satellite text-4xl text-[#5BC0BE] mb-2 animate-pulse"></i>
+                <p class="text-[#5BC0BE] font-bold">RELEASE TO UPLOAD TACTICAL MEDIA</p>
+            </div>
+
+            <div class="flex border-b border-[#5BC0BE]/20 bg-[#0B132B]/30">
+                <button id="tab-visual" onclick="switchTab('visual')"
+                    class="px-8 py-3 font-bold border-b-2 border-[#5BC0BE] text-[#5BC0BE] text-xs uppercase tracking-widest">Visual
+                    Sensor</button>
+                <button id="tab-code" onclick="switchTab('code')"
+                    class="px-8 py-3 font-bold border-b-2 border-transparent text-gray-500 hover:text-[#5BC0BE] text-xs uppercase tracking-widest">Source
+                    Terminal</button>
+            </div>
+
+            <!-- Visual Canvas -->
+            <div id="canvas-visual" class="flex-1 chat-container overflow-y-auto p-8 space-y-4">
+                <!-- Content gets injected here -->
+            </div>
+
+            <!-- Code Editor -->
+            <div id="canvas-code" class="flex-1 hidden">
+                <textarea id="html-editor"
+                    class="w-full h-full bg-slate-900 text-emerald-400 p-6 code-editor text-sm focus:outline-none resize-none"
+                    spellcheck="false"></textarea>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        let currentContent = "";
+
+        // Initialization
+        window.onload = () => {
+            // In a real app, we'd get this from Python
+            // For now, if currentContent is empty, show a welcome message
+            if (!currentContent) {
+                injectInitial();
+            }
+        };
+
+        function injectInitial() {
+            const initial = '<h1 style="text-align:center; color:#2c3e50; font-family:sans-serif;">Design Your Masterpiece</h1><p style="text-align:center; color:#7f8c8d;">Use the sidebar tools to create colorful chats and premium content.</p>';
+            updateContent(initial);
+        }
+
+        // Tab Switching
+        function switchTab(tab) {
+            const visual = document.getElementById('canvas-visual');
+            const code = document.getElementById('canvas-code');
+            const tabV = document.getElementById('tab-visual');
+            const tabC = document.getElementById('tab-code');
+
+            if (tab === 'visual') {
+                updateVisualFromCode();
+                visual.classList.remove('hidden');
+                code.classList.add('hidden');
+                tabV.classList.add('border-[#5BC0BE]', 'text-[#5BC0BE]');
+                tabV.classList.remove('border-transparent', 'text-gray-500');
+                tabC.classList.remove('border-[#5BC0BE]', 'text-[#5BC0BE]');
+                tabC.classList.add('border-transparent', 'text-gray-500');
+            } else {
+                code.classList.remove('hidden');
+                visual.classList.add('hidden');
+                tabC.classList.add('border-[#5BC0BE]', 'text-[#5BC0BE]');
+                tabC.classList.remove('border-transparent', 'text-gray-500');
+                tabV.classList.remove('border-[#5BC0BE]', 'text-[#5BC0BE]');
+                tabV.classList.add('border-transparent', 'text-gray-500');
+            }
+        }
+
+        function updateContent(html) {
+            currentContent = html;
+            document.getElementById('canvas-visual').innerHTML = html;
+            document.getElementById('html-editor').value = html;
+        }
+
+        function updateVisualFromCode() {
+            currentContent = document.getElementById('html-editor').value;
+            document.getElementById('canvas-visual').innerHTML = currentContent;
+        }
+
+        // Interaction Methods
+        function addBubble(side) {
+            const msg = prompt("Enter Chat Message:", side === 'left' ? "Hey, check this out!" : "Wow, that looks amazing! 😍");
+            if (!msg) return;
+
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const bubbleHtml = `
+            <div style="display:flex; justify-content:${side === 'left' ? 'flex-start' : 'flex-end'}; margin-bottom:12px;">
+                <div style="padding:10px 15px; border-radius:${side === 'left' ? '0 15px 15px 15px' : '15px 0 15px 15px'}; background-color:${side === 'left' ? '#ffffff' : '#dcf8c6'}; max-width:80%; box-shadow:0 1px 1px rgba(0,0,0,0.1); font-family:sans-serif; position:relative;">
+                    <div style="font-size:14px; color:#303030; line-height:1.4;">${msg}</div>
+                    <div style="text-align:right; font-size:10px; color:rgba(0,0,0,0.4); margin-top:4px;">${time} ${side === 'right' ? '✓✓' : ''}</div>
+                </div>
+            </div>`;
+
+            appendToContent(bubbleHtml);
+        }
+
+        function appendToContent(html) {
+            updateVisualFromCode(); // Sync current state
+            currentContent += html;
+            updateContent(currentContent);
+
+            // Scroll to bottom
+            const v = document.getElementById('canvas-visual');
+            v.scrollTop = v.scrollHeight;
+        }
+
+        function addCTA() {
+            const text = prompt("Button Text:", "Register Now");
+            const url = prompt("Target URL:", "https://example.com");
+            if (!text || !url) return;
+
+            const ctaHtml = `
+            <div style="text-align:center; padding:20px 0;">
+                <a href="${url}" style="background-color:#3498db; color:#ffffff; padding:14px 30px; text-decoration:none; font-weight:bold; border-radius:50px; display:inline-block; font-family:Arial, sans-serif; box-shadow:0 4px 15px rgba(52, 152, 219, 0.4);">
+                    ${text}
+                </a>
+            </div>`;
+            appendToContent(ctaHtml);
+        }
+
+        function addSocial() {
+            const socialHtml = `
+            <div style="text-align:center; padding:30px 0; background-color:#f8f9fa; border-top:1px solid #eee; margin-top:40px;">
+                <p style="margin-bottom:15px; color:#999; font-size:12px;">Stay Connected</p>
+                <a href="#" style="margin:0 10px; text-decoration:none; color:#3498db; font-weight:500;">Website</a>
+                <a href="#" style="margin:0 10px; text-decoration:none; color:#25d366; font-weight:500;">WhatsApp</a>
+                <a href="#" style="margin:0 10px; text-decoration:none; color:#0077b5; font-weight:500;">LinkedIn</a>
+            </div>`;
+            appendToContent(socialHtml);
+        }
+
+        function addDivider() {
+            appendToContent('<hr style="border:0; height:1px; background-image:linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.15), rgba(0,0,0,0)); margin:40px 0;">');
+        }
+
+        async function generatePreview() {
+            const url = document.getElementById('link-input').value;
+            if (!url) return;
+
+            document.getElementById('link-input').placeholder = "Fetching...";
+            const card = await eel.get_link_card(url)();
+            appendToContent(card);
+            document.getElementById('link-input').placeholder = "Paste URL here...";
+            document.getElementById('link-input').value = "";
+        }
+
+        // Drag & Drop
+        function handleDragOver(e) {
+            e.preventDefault();
+            document.getElementById('drop-zone').style.display = 'flex';
+        }
+        function handleDragLeave(e) {
+            document.getElementById('drop-zone').style.display = 'none';
+        }
+        async function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('drop-zone').style.display = 'none';
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                for (let file of files) {
+                    const reader = new FileReader();
+                    reader.onload = async (e) => {
+                        const imgHtml = await eel.process_image_base64(e.target.result)();
+                        appendToContent(imgHtml);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        async function saveAndApply() {
+            updateVisualFromCode();
+            await eel.apply_content(currentContent)();
+            window.close();
+        }
+
+        // Python Integration Hooks
+        async function init() {
+            const html = await eel.get_initial_content()();
+            if (html) updateContent(html);
+        }
+        init();
+
+    </script>
+</body>
+
+</html>

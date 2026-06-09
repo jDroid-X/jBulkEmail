@@ -1,0 +1,13 @@
+{
+  "subject": "",
+  "body": "<html><body><p><br/><br/><br/></p></body></html>",
+  "sender": "training@innovant.ai",
+  "recipient_file": "No file",
+  "recipients": [],
+  "delay": 0.2,
+  "batch_size": 50,
+  "personalize": true,
+  "html_mode": true,
+  "cc_mode": false,
+  "attachments": []
+}

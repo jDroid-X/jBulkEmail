@@ -1,0 +1,109 @@
+:root {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: #FFFFFF;
+  background-color: #0B132B;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-content: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0B132B 0%, #1C2541 100%);
+  overflow-x: hidden;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0B132B;
+}
+::-webkit-scrollbar-thumb {
+  background: #3A506B;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00E5FF;
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(28, 37, 65, 0.45);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel:hover {
+  border-color: rgba(0, 229, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(0, 229, 255, 0.05);
+}
+
+/* Input Styles */
+input, select, textarea {
+  background: rgba(11, 19, 43, 0.6) !important;
+  border: 1px solid #3A506B !important;
+  color: #FFFFFF !important;
+  padding: 10px 14px;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #00E5FF !important;
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.25) !important;
+}
+
+/* Cyberpunk Button */
+.btn-cyber {
+  background: linear-gradient(90deg, #00B8D4 0%, #00E5FF 100%);
+  color: #0B132B;
+  font-weight: 700;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+}
+
+.btn-cyber:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.45);
+}
+
+.btn-cyber:active {
+  transform: translateY(0);
+}
+
+/* Log Terminal Screen */
+.terminal-screen {
+  background-color: #050811;
+  border: 1px solid #1C2541;
+  color: #00FFCC;
+  font-family: 'Consolas', 'Courier New', monospace;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  overflow-y: auto;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+}

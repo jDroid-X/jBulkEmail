@@ -1,0 +1,5 @@
+email,name,error
+telangrenikhil07@gmail.com,Telangre Nikhil Sanjay ,module 'smtplib' has no attribute 'SMTPConnectionReset'
+shinderushi7145@gmail.com,Rushikesh Nandu Shinde ,module 'smtplib' has no attribute 'SMTPConnectionReset'
+kjanhavi589@gmail.com,Janhavi Kamble ,module 'smtplib' has no attribute 'SMTPConnectionReset'
+rupalichute43@gmail.com,Rupali Suresh Chute,module 'smtplib' has no attribute 'SMTPConnectionReset'
