@@ -286,7 +286,7 @@ export default function App() {
           <p style={{ fontSize: '14px', color: '#8892B0', marginBottom: '30px', lineHeight: '1.6' }}>
             jBulkEmail is a Hybrid SaaS. To bypass browser security sandboxes and safely create files directly on your <b>Windows Desktop</b>, you must install the Local Connector Plugin.
           </p>
-          <a href="https://jDroid-X.github.io/jBulkEmail/jBulkEmail_Connector.bat" download style={{ textDecoration: 'none' }}>
+          <a href="/jBulkEmail_Connector.bat" download style={{ textDecoration: 'none' }}>
             <button className="btn-cyber" style={{ width: '100%', padding: '15px', fontSize: '16px', background: 'linear-gradient(90deg, #FF9800 0%, #FFD700 100%)', color: '#000', fontWeight: 'bold' }}>
               🔌 Download Connector Plugin
             </button>
