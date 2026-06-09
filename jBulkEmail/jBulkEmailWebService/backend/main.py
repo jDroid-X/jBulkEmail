@@ -86,6 +86,10 @@ current_recipients = []
 
 # --- API ENDPOINTS ---
 
+@app.get("/api/health")
+def health_check():
+    return {"status": "ok", "message": "Local Engine Active"}
+
 @app.post("/api/auth/register")
 def register(email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.email == email).first()

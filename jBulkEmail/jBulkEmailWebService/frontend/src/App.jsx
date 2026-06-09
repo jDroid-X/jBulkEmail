@@ -7,6 +7,31 @@ export default function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [authView, setAuthView] = useState('login'); // login, register, otp
   
+  // Local Engine Status State
+  const [isEngineConnected, setIsEngineConnected] = useState(false);
+  const [isCheckingEngine, setIsCheckingEngine] = useState(true);
+
+  // Poll Local Engine
+  useEffect(() => {
+    const checkEngine = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/health`);
+        if (res.ok) {
+          setIsEngineConnected(true);
+        } else {
+          setIsEngineConnected(false);
+        }
+      } catch (err) {
+        setIsEngineConnected(false);
+      }
+      setIsCheckingEngine(false);
+    };
+
+    checkEngine();
+    const interval = setInterval(checkEngine, 3000); // Check every 3 seconds
+    return () => clearInterval(interval);
+  }, []);
+
   // Auth Forms
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -244,6 +269,35 @@ export default function App() {
   };
 
   // --- RENDERING ---
+
+  if (isCheckingEngine) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', color: '#00E5FF' }}>
+        <h2>Scanning for Local Engine...</h2>
+      </div>
+    );
+  }
+
+  if (!isEngineConnected) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', minHeight: '100vh' }}>
+        <div className="glass-panel" style={{ padding: '40px', width: '500px', margin: 'auto', textAlign: 'center' }}>
+          <h2 style={{ color: '#EF4444', margin: '0 0 15px 0' }}>⚠️ Local Engine Disconnected</h2>
+          <p style={{ fontSize: '14px', color: '#8892B0', marginBottom: '30px', lineHeight: '1.6' }}>
+            jBulkEmail is a Hybrid SaaS. To bypass browser security sandboxes and safely create files directly on your <b>Windows Desktop</b>, you must install the Local Connector Plugin.
+          </p>
+          <a href="/jBulkEmail_Connector.bat" download style={{ textDecoration: 'none' }}>
+            <button className="btn-cyber" style={{ width: '100%', padding: '15px', fontSize: '16px', background: 'linear-gradient(90deg, #FF9800 0%, #FFD700 100%)', color: '#000', fontWeight: 'bold' }}>
+              🔌 Download Connector Plugin
+            </button>
+          </a>
+          <p style={{ fontSize: '12px', color: '#8892B0', marginTop: '20px' }}>
+            <i>After downloading, double-click the script to run it. This page will automatically unlock once the connection is established!</i>
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (!token) {
     return (
